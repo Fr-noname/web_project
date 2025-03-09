@@ -7,6 +7,7 @@ def main():
     @app.route('/')
     def main_page():
         user = 'None'
+        print(None)
         return render_template('templates/main_page.html', title='Домашняя страница', username=user)
 
     @app.route('/account')
