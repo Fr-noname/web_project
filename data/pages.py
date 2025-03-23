@@ -14,7 +14,6 @@ def main():
     login_manager.init_app(app)
     app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
     db_session.global_init("db/blogs.db")
-    app.run(port=8080, host='127.0.0.1')
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -48,7 +47,6 @@ def main():
             db_sess.commit()
             return redirect('/login')
         return render_template('register.html', title='Регистрация', form=form)
-
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -147,3 +145,5 @@ def main():
         else:
             abort(404)
         return redirect('/')
+
+    app.run(port=8080, host='127.0.0.1')
