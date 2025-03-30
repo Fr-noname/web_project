@@ -9,8 +9,7 @@
   <body>
     <header>
       <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">Наше приложение</a>
-<!-- {# Внешний тэг это коммент HTML, внутренний комментарий кода в шаблоне Jinja2 #} -->
+        <a class="navbar-brand" href="#">Библиотекарь</a>
         <div class="navbar-brand">
             Логин
         {% if current_user.is_authenticated %}
@@ -24,7 +23,6 @@
 
       </nav>
     </header>
-    <!-- Begin page content -->
     <main role="main" class="container">
         {% block content %}{% endblock %}
     </main>
