@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from data import db_session
 from data.books import Book
 from data.users import User
-from forms.news import NewsForm
+from forms.news import BookForm
 from forms.user import RegisterForm, LoginForm
 
 app = Flask(__name__)
@@ -79,7 +79,7 @@ def logout():
 @app.route('/news', methods=['GET', 'POST'])
 @login_required
 def add_news():
-    form = NewsForm()
+    form = BookForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         book = Book()
@@ -100,7 +100,7 @@ def add_news():
 @app.route('/news/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_news(id):
-    form = NewsForm()
+    form = BookForm()
     # Если мы запросили страницу записи,
     if request.method == "GET":
         # ищем ее в базе по id, причем автор новости должен совпадать с текущим пользователем.
