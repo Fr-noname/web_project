@@ -73,12 +73,9 @@ def logout():
     return redirect("/")
 
 
-# Пробуем запустить.
-
-# 3-1 Добавление новости (см. материал прошлого урока: добавление записей):
-@app.route('/news', methods=['GET', 'POST'])
+@app.route('/book', methods=['GET', 'POST'])
 @login_required
-def add_news():
+def add_book():
     form = BookForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
@@ -144,10 +141,13 @@ def edit_news(id):
 @app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def news_delete(id):
-    db_sess = db_session.create_session()
-    news = db_sess.query(Book).filter(Book.id == id,
-                                      Book.user == current_user
-                                      ).first()
+    try:
+        db_sess = db_session.create_session()
+        news = db_sess.query(Book).filter(Book.id == id,
+                                          Book.user == current_user
+                                          ).first()
+    except Exception:
+        print('БД умерла.')
     if news:
         db_sess.delete(news)
         db_sess.commit()
@@ -157,4 +157,7 @@ def news_delete(id):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception:
+        print('Глобальная ошибка')
