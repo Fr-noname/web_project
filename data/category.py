@@ -1,5 +1,4 @@
 import sqlalchemy
-
 from .db_session import SqlAlchemyBase
 
 association_table = sqlalchemy.Table('association', SqlAlchemyBase.metadata,

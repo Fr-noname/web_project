@@ -77,11 +77,14 @@ def logout():
 @login_required
 def add_book():
     form = BookForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         book = Book()
+        print(form.title.data)
         book.title = form.title.data
         book.content = form.content.data
+        book.is_private = form.is_private.data
         current_user.book.append(book)
         #  Изменили текущего пользователя с помощью метода merge:
         db_sess.merge(current_user)
@@ -94,17 +97,17 @@ def add_book():
 # Пробуем запустить
 
 # 3-2 Редактирование новости:
-@app.route('/news/<int:id>', methods=['GET', 'POST'])
+@app.route('/book/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_news(id):
     form = BookForm()
+    print(id)
     # Если мы запросили страницу записи,
     if request.method == "GET":
         # ищем ее в базе по id, причем автор новости должен совпадать с текущим пользователем.
         db_sess = db_session.create_session()
         news = db_sess.query(Book).filter(Book.id == id,
-                                          Book.user == current_user
-                                          ).first()
+                                          Book.user == current_user).first()
         if news:
             # Если что-то нашли, предзаполняем форму:
             form.title.data = news.title
@@ -117,8 +120,7 @@ def edit_news(id):
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         news = db_sess.query(Book).filter(Book.id == id,
-                                          Book.user == current_user
-                                          ).first()
+                                          Book.user == current_user).first()
         if news:
             news.title = form.title.data
             news.content = form.content.data
@@ -138,7 +140,7 @@ def edit_news(id):
 # Пробуем запустить
 
 # 3-4 Обработчик удаления записей:
-@app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/book_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def news_delete(id):
     try:
