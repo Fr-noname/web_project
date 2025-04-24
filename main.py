@@ -101,7 +101,6 @@ def add_book():
 @login_required
 def edit_news(id):
     form = BookForm()
-    print(id)
     # Если мы запросили страницу записи,
     if request.method == "GET":
         # ищем ее в базе по id, причем автор новости должен совпадать с текущим пользователем.
